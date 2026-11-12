@@ -93,7 +93,7 @@ class UI:
             self.text(escape(p['description'])),
             self.text(escape(p['specs']),'caption'),
             self.text(f'**{brl(p["price_cents"])}**'),
-            self.text(f'{p["stock"]} disponíveis','caption'))),
+            self.text(f'{p["stock"]} available','caption'))),
             self.row(self.button('Add to cart','add',{'id':p['id']},True),
                      self.button('Buy now','buy_now',{'id':p['id']})))
 

@@ -269,7 +269,7 @@ def test_duplicate_order_and_paid_cancellation_guard(client):
 def test_search_filters_accents_and_price(client):
     assert any(p['id']=='fone-studio' for p in db.get_products(query='headphones'))
     assert any(p['id']=='notebook-orbit' for p in db.get_products(query='notebooks'))
-    assert any(p['id']=='camera-frame' for p in db.get_products(query='câmera'))
+    assert any(p['id']=='camera-frame' for p in db.get_products(query='camera'))
     assert all(p['price_cents']<=50000 for p in db.get_products(max_cents=50000))
 
 

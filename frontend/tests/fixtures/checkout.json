@@ -227,7 +227,7 @@
         {
           "id": "c20",
           "component": "Text",
-          "text": "Ambiente de testes: nenhuma cobrança será feita.",
+          "text": "Demo checkout: no real charge will be made.",
           "variant": "caption"
         },
         {
