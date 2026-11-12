@@ -22,13 +22,13 @@
         {
           "id": "c3",
           "component": "Text",
-          "text": "Liberdade e clareza do início ao fim do dia.",
+          "text": "Freedom and clarity all day long.",
           "variant": "body"
         },
         {
           "id": "c4",
           "component": "Text",
-          "text": "ANC · Estojo USB-C",
+          "text": "ANC · USB-C charging case",
           "variant": "caption"
         },
         {
@@ -40,7 +40,7 @@
         {
           "id": "c6",
           "component": "Text",
-          "text": "28 disponíveis",
+          "text": "28 available",
           "variant": "caption"
         },
         {
@@ -66,7 +66,7 @@
         {
           "id": "c9",
           "component": "Text",
-          "text": "Adicionar ao carrinho",
+          "text": "Add to cart",
           "variant": "body"
         },
         {
@@ -86,7 +86,7 @@
         {
           "id": "c11",
           "component": "Text",
-          "text": "Comprar agora",
+          "text": "Buy now",
           "variant": "body"
         },
         {

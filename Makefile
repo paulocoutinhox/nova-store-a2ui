@@ -44,7 +44,11 @@ validate-deps:
 
 $(JS_STAMP): frontend/package.json scripts/check_frontend_deps.py
 	@$(PYTHON) scripts/check_frontend_deps.py
-	cd frontend && $(NPM) install --no-audit --no-fund --strict-peer-deps
+	@if [[ -f frontend/package-lock.json ]]; then \
+		cd frontend && $(NPM) ci --no-audit --no-fund --strict-peer-deps; \
+	else \
+		cd frontend && $(NPM) install --no-audit --no-fund --strict-peer-deps; \
+	fi
 	cd frontend && $(NPM) ls react react-dom tailwindcss daisyui
 	@touch $(JS_STAMP)
 

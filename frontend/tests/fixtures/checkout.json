@@ -8,11 +8,11 @@
         {
           "id": "c1",
           "component": "TextField",
-          "label": "Nome completo",
+          "label": "Full name",
           "value": {
             "@path": "/form/name"
           },
-          "placeholder": "Seu nome",
+          "placeholder": "Your name",
           "variant": "shortText"
         },
         {
@@ -28,7 +28,7 @@
         {
           "id": "c3",
           "component": "TextField",
-          "label": "CEP",
+          "label": "Postal code",
           "value": {
             "@path": "/form/zip"
           },
@@ -38,27 +38,27 @@
         {
           "id": "c4",
           "component": "TextField",
-          "label": "Endereço",
+          "label": "Address",
           "value": {
             "@path": "/form/address"
           },
-          "placeholder": "Rua / Avenida",
+          "placeholder": "Street address",
           "variant": "shortText"
         },
         {
           "id": "c5",
           "component": "TextField",
-          "label": "Número",
+          "label": "Number",
           "value": {
             "@path": "/form/number"
           },
-          "placeholder": "Número",
+          "placeholder": "Number",
           "variant": "shortText"
         },
         {
           "id": "c6",
           "component": "TextField",
-          "label": "Complemento (opcional)",
+          "label": "Apartment or suite (optional)",
           "value": {
             "@path": "/form/complement"
           },
@@ -68,11 +68,11 @@
         {
           "id": "c7",
           "component": "TextField",
-          "label": "Cidade",
+          "label": "City",
           "value": {
             "@path": "/form/city"
           },
-          "placeholder": "Cidade",
+          "placeholder": "City",
           "variant": "shortText"
         },
         {
@@ -88,7 +88,7 @@
         {
           "id": "c9",
           "component": "TextField",
-          "label": "Cupom (opcional)",
+          "label": "Coupon (optional)",
           "value": {
             "@path": "/form/coupon"
           },
@@ -98,7 +98,7 @@
         {
           "id": "c10",
           "component": "Text",
-          "text": "**Finalizar pedido**",
+          "text": "**Complete order**",
           "variant": "body"
         },
         {
@@ -110,7 +110,7 @@
         {
           "id": "c12",
           "component": "Text",
-          "text": "Informe os dados de entrega para continuar.",
+          "text": "Enter os dados de entrega para continuar.",
           "variant": "caption"
         },
         {
@@ -134,18 +134,18 @@
         {
           "id": "c15",
           "component": "ChoicePicker",
-          "label": "Como deseja pagar?",
+          "label": "How would you like to pay?",
           "options": [
             {
               "label": "Pix",
               "value": "pix"
             },
             {
-              "label": "Cartão teste",
+              "label": "Test card",
               "value": "card"
             },
             {
-              "label": "Boleto teste",
+              "label": "Test bank slip",
               "value": "boleto"
             }
           ],
