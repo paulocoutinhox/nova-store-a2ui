@@ -80,7 +80,7 @@ frontend: $(JS_STAMP)
 test-backend: $(PY_STAMP)
 	cd backend && .venv/bin/python -m pytest -q
 
-test: test-backend validate-deps
+test: test-backend validate-deps frontend-deps
 	cd frontend && $(NPM) run test
 
 test-ai: $(PY_STAMP)
