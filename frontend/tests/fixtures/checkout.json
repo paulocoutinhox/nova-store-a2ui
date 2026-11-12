@@ -1,0 +1,270 @@
+[
+  {
+    "version": "1.0",
+    "createSurface": {
+      "surfaceId": "surface_checkout_fixture",
+      "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json",
+      "components": [
+        {
+          "id": "c1",
+          "component": "TextField",
+          "label": "Full name",
+          "value": {
+            "@path": "/form/name"
+          },
+          "placeholder": "Your name",
+          "variant": "shortText"
+        },
+        {
+          "id": "c2",
+          "component": "TextField",
+          "label": "E-mail",
+          "value": {
+            "@path": "/form/email"
+          },
+          "placeholder": "nome@exemplo.com",
+          "variant": "shortText"
+        },
+        {
+          "id": "c3",
+          "component": "TextField",
+          "label": "Postal code",
+          "value": {
+            "@path": "/form/zip"
+          },
+          "placeholder": "00000-000",
+          "variant": "shortText"
+        },
+        {
+          "id": "c4",
+          "component": "TextField",
+          "label": "Address",
+          "value": {
+            "@path": "/form/address"
+          },
+          "placeholder": "Street address",
+          "variant": "shortText"
+        },
+        {
+          "id": "c5",
+          "component": "TextField",
+          "label": "Number",
+          "value": {
+            "@path": "/form/number"
+          },
+          "placeholder": "Number",
+          "variant": "shortText"
+        },
+        {
+          "id": "c6",
+          "component": "TextField",
+          "label": "Apartment or suite (optional)",
+          "value": {
+            "@path": "/form/complement"
+          },
+          "placeholder": "Apartamento etc.",
+          "variant": "shortText"
+        },
+        {
+          "id": "c7",
+          "component": "TextField",
+          "label": "City",
+          "value": {
+            "@path": "/form/city"
+          },
+          "placeholder": "City",
+          "variant": "shortText"
+        },
+        {
+          "id": "c8",
+          "component": "TextField",
+          "label": "UF",
+          "value": {
+            "@path": "/form/state"
+          },
+          "placeholder": "RJ",
+          "variant": "shortText"
+        },
+        {
+          "id": "c9",
+          "component": "TextField",
+          "label": "Coupon (optional)",
+          "value": {
+            "@path": "/form/coupon"
+          },
+          "placeholder": "BEMVINDO10",
+          "variant": "shortText"
+        },
+        {
+          "id": "c10",
+          "component": "Text",
+          "text": "**Complete order**",
+          "variant": "body"
+        },
+        {
+          "id": "c11",
+          "component": "Text",
+          "text": "1 produto(s) • Total estimado R$ 599,00",
+          "variant": "caption"
+        },
+        {
+          "id": "c12",
+          "component": "Text",
+          "text": "Enter os dados de entrega para continuar.",
+          "variant": "caption"
+        },
+        {
+          "id": "c13",
+          "component": "Row",
+          "children": [
+            "c4",
+            "c5"
+          ],
+          "align": "center"
+        },
+        {
+          "id": "c14",
+          "component": "Row",
+          "children": [
+            "c7",
+            "c8"
+          ],
+          "align": "center"
+        },
+        {
+          "id": "c15",
+          "component": "ChoicePicker",
+          "label": "How would you like to pay?",
+          "options": [
+            {
+              "label": "Pix",
+              "value": "pix"
+            },
+            {
+              "label": "Test card",
+              "value": "card"
+            },
+            {
+              "label": "Test bank slip",
+              "value": "boleto"
+            }
+          ],
+          "value": {
+            "@path": "/form/payment"
+          },
+          "variant": "mutuallyExclusive",
+          "displayStyle": "chips"
+        },
+        {
+          "id": "c16",
+          "component": "Text",
+          "text": "Continuar com pedido",
+          "variant": "body"
+        },
+        {
+          "id": "c17",
+          "component": "Button",
+          "child": "c16",
+          "variant": "primary",
+          "action": {
+            "event": {
+              "name": "place_order",
+              "context": {
+                "name": {
+                  "@path": "/form/name"
+                },
+                "email": {
+                  "@path": "/form/email"
+                },
+                "zip": {
+                  "@path": "/form/zip"
+                },
+                "address": {
+                  "@path": "/form/address"
+                },
+                "number": {
+                  "@path": "/form/number"
+                },
+                "complement": {
+                  "@path": "/form/complement"
+                },
+                "city": {
+                  "@path": "/form/city"
+                },
+                "state": {
+                  "@path": "/form/state"
+                },
+                "coupon": {
+                  "@path": "/form/coupon"
+                },
+                "payment": {
+                  "@path": "/form/payment"
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "c18",
+          "component": "Column",
+          "children": [
+            "c1",
+            "c2",
+            "c3",
+            "c13",
+            "c6",
+            "c14",
+            "c9",
+            "c15",
+            "c17"
+          ]
+        },
+        {
+          "id": "c19",
+          "component": "Card",
+          "child": "c18"
+        },
+        {
+          "id": "c20",
+          "component": "Text",
+          "text": "Demo checkout: no real charge will be made.",
+          "variant": "caption"
+        },
+        {
+          "id": "c21",
+          "component": "Column",
+          "children": [
+            "c10",
+            "c11",
+            "c12",
+            "c19",
+            "c20"
+          ]
+        },
+        {
+          "id": "root",
+          "component": "Column",
+          "children": [
+            "c21"
+          ]
+        }
+      ],
+      "dataModel": {
+        "form": {
+          "name": "",
+          "email": "",
+          "zip": "",
+          "address": "",
+          "number": "",
+          "complement": "",
+          "city": "",
+          "state": "",
+          "coupon": "",
+          "payment": [
+            "pix"
+          ]
+        }
+      }
+    }
+  }
+]
