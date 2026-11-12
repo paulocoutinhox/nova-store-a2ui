@@ -10,8 +10,8 @@ export function ChatComposer({ value, onChange, onSend, disabled }) {
         onInput={e => { e.currentTarget.style.height = 'auto'; e.currentTarget.style.height = `${Math.min(e.currentTarget.scrollHeight, 138)}px`; }}
         onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); onSend(value); if (ref.current) ref.current.style.height = 'auto'; } }}
         className="max-h-[138px] min-h-[43px] min-w-0 flex-1 resize-none border-0 bg-transparent py-[11px] text-[14px] leading-[1.5] text-slate-900 outline-none placeholder:text-slate-400 disabled:opacity-60"
-        placeholder="O que você está procurando?" aria-label="Escreva sua mensagem"/>
-      <button type="submit" disabled={!value.trim() || disabled} aria-label="Enviar mensagem" className="btn btn-square flex size-10 min-h-10 shrink-0 items-center justify-center rounded-xl border-blue-700 bg-blue-700 text-white hover:border-blue-800 hover:bg-blue-800 disabled:border-slate-100 disabled:bg-slate-100 disabled:text-slate-400"><ArrowUp size={20}/></button>
+        placeholder="What are you looking for?" aria-label="Type a message"/>
+      <button type="submit" disabled={!value.trim() || disabled} aria-label="Send message" className="btn btn-square flex size-10 min-h-10 shrink-0 items-center justify-center rounded-xl border-blue-700 bg-blue-700 text-white hover:border-blue-800 hover:bg-blue-800 disabled:border-slate-100 disabled:bg-slate-100 disabled:text-slate-400"><ArrowUp size={20}/></button>
     </form>
   </footer>;
 }

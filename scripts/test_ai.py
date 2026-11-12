@@ -16,17 +16,17 @@ from app.ai import reply_with_ai, ai_config
 async def main():
     config=ai_config()
     if not config['configured']:
-        raise SystemExit('Configure OPENAI_API_KEY em backend/.env antes de make test-ai')
+        raise SystemExit('Set OPENAI_API_KEY in backend/.env before running make test-ai')
     db.initialize()
     sid='smoke_'+uuid.uuid4().hex
     db.ensure_session(sid)
-    print('Chamando modelo real:',config['model'])
-    output,tools=await reply_with_ai('Procure no catálogo um fone com cancelamento de ruído e diga o preço.',sid)
-    print('Ferramentas usadas:',tools)
-    print('Resposta:',output)
+    print('Calling real model:',config['model'])
+    output,tools=await reply_with_ai('Find headphones with noise cancellation in the catalog and tell me the price.',sid)
+    print('Tools used:',tools)
+    print('Response:',output)
     if 'find_products' not in tools:
-        raise SystemExit('O agente respondeu sem chamar a ferramenta de busca; verifique o prompt e o modelo.')
-    print('IA e ferramenta: OK')
+        raise SystemExit('The agent did not call the search tool. Check the prompt and model configuration.')
+    print('AI and tool invocation: OK')
 
 
 if __name__=='__main__':

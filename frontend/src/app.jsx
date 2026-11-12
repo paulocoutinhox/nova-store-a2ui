@@ -14,10 +14,10 @@ async function request(path, payload) {
   try {
     response = await fetch(`/api/${path}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
   } catch {
-    throw new Error('Não foi possível conectar à loja. Tente novamente.');
+    throw new Error('Could not connect to the store. Please try again.');
   }
   if (!response.ok) {
-    let message = 'Não foi possível concluir sua solicitação. Tente novamente.';
+    let message = 'Could not complete your request. Please try again.';
     try { const error = await response.json(); if (typeof error.detail === 'string') message = error.detail; } catch { /* Keep generic user-facing error. */ }
     throw new Error(message);
   }
@@ -100,13 +100,13 @@ function App() {
 
   return <div className="flex h-dvh min-h-[450px] flex-col bg-slate-50 text-slate-900" data-theme="nova">
     <ChatHeader cartCount={cartCount} onCart={openCart} onNewChat={newChat} busy={busy || loading}/>
-    <main ref={scrolling} className="chat-scroll flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain" aria-label="Conversa com a loja">
+    <main ref={scrolling} className="chat-scroll flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain" aria-label="Store conversation">
       <div className="mx-auto flex w-full max-w-[920px] flex-1 flex-col gap-5 px-4 pb-9 pt-7 sm:px-7 sm:pt-9">
         {notice && <div role="alert" className="alert alert-error mx-auto w-full max-w-[640px] rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-800 shadow-none">{notice}</div>}
         {!loading && visible.length === 0 && <WelcomeScreen onPrompt={send} disabled={busy || !id}/>}
         {visible.map(turn => <ChatMessage key={turn.id} turn={turn} onAction={action} disabled={busy}/>)}
-        {loading && <p className="py-10 text-center text-sm text-slate-500">Abrindo conversa...</p>}
-        {busy && !loading && <div aria-label="Assistente escrevendo" className="flex gap-2.5"><span className="flex size-8 items-center justify-center rounded-xl bg-slate-900 text-white">•</span><div className="flex items-center gap-1 rounded-2xl border border-slate-200 bg-white px-4 py-2"><span className="typing-dot"/><span className="typing-dot"/><span className="typing-dot"/></div></div>}
+        {loading && <p className="py-10 text-center text-sm text-slate-500">Opening conversation...</p>}
+        {busy && !loading && <div aria-label="Assistant is typing" className="flex gap-2.5"><span className="flex size-8 items-center justify-center rounded-xl bg-slate-900 text-white">•</span><div className="flex items-center gap-1 rounded-2xl border border-slate-200 bg-white px-4 py-2"><span className="typing-dot"/><span className="typing-dot"/><span className="typing-dot"/></div></div>}
       </div>
     </main>
     <ChatComposer value={input} onChange={setInput} onSend={send} disabled={!id || busy || loading}/>

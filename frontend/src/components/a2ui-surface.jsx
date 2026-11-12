@@ -33,18 +33,18 @@ function Widget({ id, surface, data, setData, onAction, disabled, depth = 0 }) {
       </p>;
     case 'Image': {
       const isQR = typeof node.url === 'string' && node.url.includes('/api/demo-qr/');
-      return <img src={node.url} alt={node.description || 'Produto'} loading="lazy"
+      return <img src={node.url} alt={node.description || 'Product'} loading="lazy"
         className={`${isQR ? 'h-40 w-40 object-contain' : 'h-[84px] w-[84px] object-cover'} shrink-0 rounded-xl border border-slate-100 bg-[#f7f7f7]`}/>;
     }
     case 'Button': {
       const titleNode = surface.components.get(node.child);
-      const label = titleNode?.text || 'Continuar';
+      const label = titleNode?.text || 'Continue';
       const primary = node.variant === 'primary';
       return <button type="button" disabled={disabled} onClick={() => onAction(buildAction(surface.id, id, node.action?.event, data))}
         className={`btn btn-sm h-9 min-h-9 rounded-xl px-3.5 text-[12px] font-semibold normal-case shadow-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${primary
           ? 'border-blue-700 bg-blue-700 text-white hover:border-blue-800 hover:bg-blue-800 disabled:border-blue-200 disabled:bg-blue-200 disabled:text-slate-500'
           : 'border-slate-200 bg-white text-slate-800 hover:border-blue-200 hover:bg-blue-50 disabled:bg-slate-50 disabled:text-slate-400'}`}>
-        {label === 'Adicionar +' && <ShoppingCart size={14}/>}<RichText value={label}/>{primary && label === 'Finalizar compra' && <ArrowRight size={14}/>}
+        {label === 'Add +' && <ShoppingCart size={14}/>}<RichText value={label}/>{primary && label === 'Checkout' && <ArrowRight size={14}/>}
       </button>;
     }
     case 'TextField': {
@@ -82,7 +82,7 @@ function Widget({ id, surface, data, setData, onAction, disabled, depth = 0 }) {
 
 function RenderedSurface({ surface, onAction, disabled }) {
   const [data, setData] = useState(surface.data || {});
-  return <div className="a2ui-content min-w-0" aria-label="Opções da loja">
+  return <div className="a2ui-content min-w-0" aria-label="Shopping options">
     <Widget id="root" surface={surface} data={data} setData={setData} onAction={onAction} disabled={disabled}/>
   </div>;
 }
@@ -92,7 +92,7 @@ export function A2UISurface({ messages, onAction, disabled = false }) {
     try { return { surfaces: parseA2UI(messages), error: '' }; }
     catch (err) { return { surfaces: [], error: err.message }; }
   }, [messages]);
-  if (error) return <p role="alert" className="text-sm text-rose-700">Não foi possível carregar as opções da loja.</p>;
+  if (error) return <p role="alert" className="text-sm text-rose-700">Shopping options could not be loaded.</p>;
   return <div className="mt-3 flex min-w-0 flex-col gap-3">{surfaces.map(surface =>
     <RenderedSurface key={surface.id} surface={surface} onAction={onAction} disabled={disabled}/>)}</div>;
 }

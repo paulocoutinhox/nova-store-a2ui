@@ -8,10 +8,10 @@ const envelope = {
     surfaceId: 'surface_123', catalogId: BASIC_CATALOG_ID,
     components: [
       { id: 'root', component: 'Column', children: ['name', 'submit'] },
-      { id: 'name', component: 'TextField', label: 'Nome', value: { '@path': '/form/name' } },
+      { id: 'name', component: 'TextField', label: 'Name', value: { '@path': '/form/name' } },
       { id: 'submit', component: 'Button', child: 'name', action: { event: { name: 'place_order', context: { name: { '@path': '/form/name' } } } } },
     ],
-    dataModel: { form: { name: 'Joana' } },
+    dataModel: { form: { name: 'Joanna' } },
   },
 };
 
@@ -19,17 +19,17 @@ test('parses A2UI 1.0 basic catalog with isolated surface data', () => {
   const [surface] = parseA2UI([envelope]);
   assert.equal(surface.id, 'surface_123');
   assert.equal(surface.components.get('submit').component, 'Button');
-  assert.equal(getPath(surface.data, '/form/name'), 'Joana');
+  assert.equal(getPath(surface.data, '/form/name'), 'Joanna');
 });
 
 test('action is structured, preserves bound form values and NEVER fabricates userMessage', () => {
   const original = envelope.createSurface.dataModel;
-  const edited = setPath(original, '/form/name', 'Maria');
-  assert.equal(original.form.name, 'Joana');
+  const edited = setPath(original, '/form/name', 'Mary');
+  assert.equal(original.form.name, 'Joanna');
   const event = buildAction('surface_123', 'submit', envelope.createSurface.components[2].action.event, edited);
   assert.equal(event.version, '1.0');
   assert.equal(event.action.name, 'place_order');
-  assert.equal(event.action.context.name, 'Maria');
+  assert.equal(event.action.context.name, 'Mary');
   assert.equal(Object.hasOwn(event.action, 'userMessage'), false);
 });
 
@@ -38,7 +38,7 @@ test('rejects unsupported catalogs and dangerous paths', () => {
   assert.throws(() => parseA2UI([{ ...envelope, createSurface: { ...envelope.createSurface, catalogId: 'other' } }]));
   assert.throws(() => setPath({}, '/__proto__/isAdmin', true));
   assert.equal(getPath({}, '/constructor'), undefined);
-  assert.deepEqual(resolveDynamic({ test: { '@path': '/form/name' } }, envelope.createSurface.dataModel), { test: 'Joana' });
+  assert.deepEqual(resolveDynamic({ test: { '@path': '/form/name' } }, envelope.createSurface.dataModel), { test: 'Joanna' });
 });
 
 test('the real Python-generated product and checkout A2UI surfaces parse in React', async () => {

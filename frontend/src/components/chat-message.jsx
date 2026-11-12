@@ -4,7 +4,7 @@ import { A2UISurface } from './a2ui-surface.jsx';
 
 function formatClock(value) {
   const time = new Date(value || Date.now());
-  return Number.isNaN(time.getTime()) ? '' : time.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  return Number.isNaN(time.getTime()) ? '' : time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 }
 
 export function ChatMessage({ turn, onAction, disabled }) {
