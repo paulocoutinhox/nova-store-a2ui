@@ -16,29 +16,29 @@ FREE_SHIPPING_THRESHOLD = 30000
 SHIPPING_CENTS = 1990
 
 CATALOG = [
-    ('notebook-orbit', 'Notebook Orbit 14', 'Eletrônicos', 429900, 12, 'laptop', 'Leve, rápido e ideal para criar de qualquer lugar.', '16 GB RAM · SSD 512 GB · Tela 14”'),
-    ('fone-studio', 'Fone Studio ANC', 'Áudio', 69900, 22, 'headphones', 'Som imersivo com cancelamento ativo de ruído.', 'Bluetooth 5.3 · Até 32 horas'),
-    ('smartphone-nova', 'Smartphone Nova 5G', 'Eletrônicos', 289900, 9, 'smartphone', 'Fotografia brilhante e bateria para o dia todo.', '256 GB · OLED 6,5” · 5G'),
-    ('watch-pulse', 'Smartwatch Pulse', 'Eletrônicos', 99900, 18, 'smartwatch', 'Bem-estar, movimento e notificações no pulso.', 'GPS · 7 dias de bateria'),
-    ('camera-frame', 'Câmera Frame X', 'Eletrônicos', 389900, 6, 'camera', 'Capture cada detalhe com estilo e precisão.', '24 MP · 4K · Wi-Fi'),
-    ('teclado-type', 'Teclado Type Mini', 'Acessórios', 47900, 30, 'keyboard', 'Um toque de personalidade para o seu setup.', 'Mecânico · USB-C · 68 teclas'),
-    ('caixa-sound', 'Caixa Sound Go', 'Áudio', 34900, 35, 'speaker', 'Áudio encorpado em um formato compacto.', 'IPX7 · Bluetooth · 12 horas'),
-    ('buds-cloud', 'Buds Cloud Pro', 'Áudio', 59900, 28, 'earbuds', 'Liberdade e clareza do início ao fim do dia.', 'ANC · Estojo USB-C'),
-    ('mochila-terra', 'Mochila Terra', 'Lifestyle', 45900, 14, 'backpack', 'Acompanhe a rotina com espaço e elegância.', 'Compartimento para notebook 15”'),
-    ('tenis-flow', 'Tênis Flow Runner', 'Lifestyle', 54900, 17, 'sneakers', 'Conforto para todos os seus caminhos.', 'Malha respirável · Solado leve'),
-    ('garrafa-pure', 'Garrafa Pure Steel', 'Lifestyle', 15900, 42, 'bottle', 'Hidratação com design minimalista.', '500 ml · Aço inox · Térmica'),
-    ('luminaria-glow', 'Luminária Glow', 'Acessórios', 32900, 16, 'lamp', 'Uma luz aconchegante para qualquer ambiente.', 'LED · Luz quente · Bivolt'),
+    ('notebook-orbit', 'Orbit 14 Laptop', 'Electronics', 429900, 12, 'laptop', 'Lightweight and fast, ready for wherever you work.', '16 GB RAM · 512 GB SSD · 14-inch display'),
+    ('fone-studio', 'Studio ANC Headphones', 'Audio', 69900, 22, 'headphones', 'Immersive sound with active noise cancellation.', 'Bluetooth 5.3 · Up to 32 hours'),
+    ('smartphone-nova', 'Smartphone Nova 5G', 'Electronics', 289900, 9, 'smartphone', 'Vivid photography and all-day battery life.', '256 GB · 6.5-inch OLED · 5G'),
+    ('watch-pulse', 'Smartwatch Pulse', 'Electronics', 99900, 18, 'smartwatch', 'Wellness, activity, and notifications on your wrist.', 'GPS · 7-day battery life'),
+    ('camera-frame', 'Frame X Camera', 'Electronics', 389900, 6, 'camera', 'Capture every detail with style and precision.', '24 MP · 4K · Wi-Fi'),
+    ('teclado-type', 'Type Mini Keyboard', 'Accessories', 47900, 30, 'keyboard', 'Add personality to your workspace.', 'Mechanical · USB-C · 68 keys'),
+    ('caixa-sound', 'Sound Go Speaker', 'Audio', 34900, 35, 'speaker', 'Full sound in a compact design.', 'IPX7 · Bluetooth · 12-hour battery life'),
+    ('buds-cloud', 'Buds Cloud Pro', 'Audio', 59900, 28, 'earbuds', 'Freedom and clarity throughout your day.', 'ANC · USB-C charging case'),
+    ('mochila-terra', 'Terra Backpack', 'Lifestyle', 45900, 14, 'backpack', 'Carry your essentials in effortless style.', '15-inch laptop compartment'),
+    ('tenis-flow', 'Flow Runner Sneakers', 'Lifestyle', 54900, 17, 'sneakers', 'Comfort wherever the day takes you.', 'Breathable mesh · Lightweight sole'),
+    ('garrafa-pure', 'Pure Steel Bottle', 'Lifestyle', 15900, 42, 'bottle', 'Stay hydrated with minimalist design.', '500 ml · Stainless steel · Insulated'),
+    ('luminaria-glow', 'Glow Lamp', 'Accessories', 32900, 16, 'lamp', 'Warm ambient lighting for any room.', 'LED · Warm light · Dual voltage'),
 ]
 
 SEARCH_ALIASES = {
-    'fone-studio': 'fone fones headset headphone headphones ouvido musica anc bluetooth',
-    'buds-cloud': 'fone fones earbuds intra auricular bluetooth sem fio tws anc ouvido',
-    'caixa-sound': 'caixa som speaker alto falante portatil bluetooth',
-    'notebook-orbit': 'computador laptop notebook trabalho programacao estudo',
-    'watch-pulse': 'relogio smartwatch inteligente pulso',
-    'teclado-type': 'teclado mecanico computador digitacao',
-    'smartphone-nova': 'celular smartphone telefone telefone movel',
-    'camera-frame': 'camera fotografia foto video',
+    'fone-studio': 'headphone headphones headset over ear music noise cancellation anc bluetooth fone fones ouvido musica',
+    'buds-cloud': 'earbuds earphones wireless in ear tws anc bluetooth fone fones intra auricular sem fio ouvido',
+    'caixa-sound': 'speaker speakers portable waterproof sound bluetooth caixa som alto falante portatil',
+    'notebook-orbit': 'laptop notebook computer work programming study computador trabalho programacao estudo',
+    'watch-pulse': 'smartwatch watch fitness wearable relogio inteligente pulso',
+    'teclado-type': 'keyboard mechanical typing computer teclado mecanico digitacao',
+    'smartphone-nova': 'phone smartphone mobile cellphone celular telefone movel',
+    'camera-frame': 'camera photography photo video fotografia foto',
 }
 
 
@@ -100,6 +100,14 @@ def initialize():
         if db.execute('SELECT COUNT(*) FROM products').fetchone()[0] == 0:
             db.executemany('INSERT INTO products VALUES (?,?,?,?,?,?,?,?)',
                            [(i,n,c,p,s,f'/images/{img}.webp',d,sp) for i,n,c,p,s,img,d,sp in CATALOG])
+    with connect(write=True) as conn:
+        legacy = conn.execute("SELECT 1 FROM products WHERE category IN ('Eletrônicos', 'Áudio', 'Acessórios') LIMIT 1").fetchone()
+        if legacy:
+            conn.executemany(
+                'UPDATE products SET name=?, category=?, description=?, specs=? WHERE id=?',
+                [(name, category, description, specs, product_id)
+                 for product_id, name, category, _price, _stock, _image, description, specs in CATALOG],
+            )
     initialize_chat()
 
 
@@ -112,7 +120,8 @@ def _search_words(value):
     folded = ''.join(c for c in unicodedata.normalize('NFKD', str(value).lower())
                      if not unicodedata.combining(c))
     stop = {'de', 'do', 'da', 'dos', 'das', 'a', 'o', 'os', 'as', 'e', 'um', 'uma',
-            'para', 'com', 'por', 'ouvido', 'ate', 'quero', 'me', 'mostre', 'ver'}
+            'para', 'com', 'por', 'ouvido', 'ate', 'quero', 'me', 'mostre', 'ver',
+            'the', 'and', 'for', 'with', 'from', 'want', 'show', 'me', 'under', 'please', 'some', 'have', 'what'}
     words = []
     for raw in folded.replace('-', ' ').split():
         word = raw.strip('.,:;!?"\\/()[]{}')
@@ -164,7 +173,7 @@ def categories():
 
 def ensure_session(sid):
     if not sid or len(sid)>80 or not all(c.isalnum() or c in '-_' for c in sid):
-        raise ValueError('Sessão inválida')
+        raise ValueError('Invalid session.')
     with connect(write=True) as db:
         db.execute('INSERT OR IGNORE INTO sessions(id,created_at) VALUES (?,?)', (sid, now()))
 
@@ -194,11 +203,11 @@ def cart_count(sid):
 
 def set_qty(sid, pid, qty):
     if not isinstance(qty, int) or qty<0 or qty>10:
-        raise ValueError('Quantidade deve estar entre 0 e 10.')
+        raise ValueError('Quantity must be between 0 and 10.')
     with connect(write=True) as db:
         p=db.execute('SELECT stock FROM products WHERE id=?',(pid,)).fetchone()
-        if not p: raise ValueError('Produto não encontrado.')
-        if qty>p['stock']: raise ValueError('Estoque insuficiente.')
+        if not p: raise ValueError('Product not found.')
+        if qty>p['stock']: raise ValueError('Insufficient stock.')
         if qty == 0:
             db.execute('DELETE FROM cart_items WHERE session_id=? AND product_id=?',(sid,pid))
         else:
@@ -207,13 +216,13 @@ def set_qty(sid, pid, qty):
 
 
 def add_to_cart(sid,pid,qty=1):
-    if qty not in range(1,11): raise ValueError('Quantidade inválida.')
+    if qty not in range(1,11): raise ValueError('Invalid quantity.')
     with connect(write=True) as db:
         p=db.execute('SELECT stock FROM products WHERE id=?',(pid,)).fetchone()
-        if not p: raise ValueError('Produto não encontrado.')
+        if not p: raise ValueError('Product not found.')
         current=db.execute('SELECT qty FROM cart_items WHERE session_id=? AND product_id=?',(sid,pid)).fetchone()
         new=(current['qty'] if current else 0)+qty
-        if new>10 or new>p['stock']: raise ValueError('Limite por pedido ou estoque insuficiente.')
+        if new>10 or new>p['stock']: raise ValueError('Order quantity limit reached or insufficient stock.')
         db.execute('''INSERT INTO cart_items(session_id,product_id,qty) VALUES (?,?,?)
            ON CONFLICT(session_id,product_id) DO UPDATE SET qty=excluded.qty''',(sid,pid,new))
 
@@ -230,26 +239,26 @@ def quote(sid, coupon=''):
 
 
 def create_order(sid, customer, method, coupon=''):
-    if method not in ('pix','card','boleto'): raise ValueError('Forma de pagamento inválida.')
+    if method not in ('pix','card','boleto'): raise ValueError('Invalid payment method.')
     required=('name','email','zip','address','number','city','state')
     if any(not str(customer.get(k,'')).strip() for k in required):
-        raise ValueError('Preencha nome, e-mail e endereço de entrega.')
+        raise ValueError('Enter your name, email, and delivery address.')
     if '@' not in customer['email'] or '.' not in customer['email'].split('@')[-1]:
-        raise ValueError('Informe um e-mail válido.')
+        raise ValueError('Enter a valid email address.')
     if len(''.join(ch for ch in customer['zip'] if ch.isdigit()))!=8:
-        raise ValueError('Informe um CEP de 8 dígitos.')
+        raise ValueError('Enter a valid 8-digit Brazilian postal code.')
     if len(customer['name'])>120 or len(customer['address'])>200 or len(customer['email'])>180:
-        raise ValueError('Dados de cadastro muito longos.')
+        raise ValueError('Customer details are too long.')
     with connect(write=True) as db:
         items=[dict(row) for row in db.execute('''SELECT p.*,c.qty FROM cart_items c
            JOIN products p ON p.id=c.product_id WHERE c.session_id=?''',(sid,))]
-        if not items: raise ValueError('Seu carrinho está vazio.')
+        if not items: raise ValueError('Your cart is empty.')
         for item in items:
             if item['qty']>item['stock']:
-                raise ValueError(f'Estoque insuficiente para {item["name"]}.')
+                raise ValueError(f'Insufficient stock for {item["name"]}.')
         subtotal=sum(x['price_cents']*x['qty'] for x in items)
         code=(coupon or '').strip().upper()
-        if code and code != 'BEMVINDO10': raise ValueError('Cupom inválido.')
+        if code and code != 'BEMVINDO10': raise ValueError('Invalid coupon.')
         discount=subtotal//10 if code else 0
         shipping=0 if subtotal>=FREE_SHIPPING_THRESHOLD else SHIPPING_CENTS
         total=subtotal-discount+shipping
@@ -283,9 +292,9 @@ def get_orders(sid):
 def approve_demo_payment(oid,sid):
     with connect(write=True) as db:
         order=db.execute('SELECT status FROM orders WHERE id=? AND session_id=?',(oid,sid)).fetchone()
-        if not order: raise ValueError('Pedido não encontrado.')
+        if not order: raise ValueError('Order not found.')
         if order['status']=='paid': return
-        if order['status']!='pending': raise ValueError('Pagamento não pode ser aprovado.')
+        if order['status']!='pending': raise ValueError('This payment cannot be approved.')
         db.execute('UPDATE orders SET status=?,paid_at=? WHERE id=?',('paid',now(),oid))
         db.execute('UPDATE payments SET status=? WHERE order_id=?',('approved',oid))
 
@@ -296,11 +305,11 @@ def cancel_demo_order(oid, sid):
         order = conn.execute('SELECT status FROM orders WHERE id=? AND session_id=?',
                              (oid, sid)).fetchone()
         if not order:
-            raise ValueError('Pedido não encontrado nesta sessão.')
+            raise ValueError('Order not found in this session.')
         if order['status'] == 'cancelled':
             return
         if order['status'] != 'pending':
-            raise ValueError('Um pedido pago não pode ser cancelado neste simulador.')
+            raise ValueError('A paid order cannot be cancelled in this simulator.')
         for item in conn.execute('SELECT product_id, qty FROM order_items WHERE order_id=?', (oid,)):
             conn.execute('UPDATE products SET stock = stock + ? WHERE id=?',
                          (item['qty'], item['product_id']))
