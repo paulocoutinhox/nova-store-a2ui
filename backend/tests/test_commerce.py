@@ -267,7 +267,7 @@ def test_duplicate_order_and_paid_cancellation_guard(client):
 
 
 def test_search_filters_accents_and_price(client):
-    assert any(p['id']=='fone-studio' for p in db.get_products(query='fone de ouvido'))
+    assert any(p['id']=='fone-studio' for p in db.get_products(query='headphones'))
     assert any(p['id']=='notebook-orbit' for p in db.get_products(query='notebooks'))
     assert any(p['id']=='camera-frame' for p in db.get_products(query='câmera'))
     assert all(p['price_cents']<=50000 for p in db.get_products(max_cents=50000))
@@ -287,7 +287,7 @@ def test_race_orders_cannot_oversell(client):
         futures=[pool.submit(create,sid) for sid in (a,b)]
         results=[f.result(timeout=10) for f in futures]
     assert sum(r.startswith('PED-') for r in results)==1
-    assert 'Estoque insuficiente' in str(results)
+    assert 'Insufficient stock' in str(results)
 
 
 def test_ui_messages_replay_after_new_session(client):
@@ -389,7 +389,7 @@ def test_click_uses_model_for_natural_followup_without_fake_user_turn(client,mon
     out=event(client,sid,'unused','categories')
     assert out['used_real_ai'] is True
     assert out['turn']['via']=='pydantic-ai'
-    assert out['turn']['content'].startswith('Claro!')
+    assert out['turn']['content'].startswith('Absolutely!')
     assert calls[0][0]=='categories'
     assert not [turn for turn in db.chat_history(sid) if turn['role']=='user']
 

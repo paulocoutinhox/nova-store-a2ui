@@ -31,8 +31,8 @@ CATALOG = [
 ]
 
 SEARCH_ALIASES = {
-    'fone-studio': 'headphone headphones headset over ear music noise cancellation anc bluetooth fone fones ouvido musica',
-    'buds-cloud': 'earbuds earphones wireless in ear tws anc bluetooth fone fones intra auricular sem fio ouvido',
+    'fone-studio': 'headphone headphones headset fone ouvido anc bluetooth noise',
+    'buds-cloud': 'earbuds earphones headphone fone ouvido wireless anc bluetooth',
     'caixa-sound': 'speaker speakers portable waterproof sound bluetooth caixa som alto falante portatil',
     'notebook-orbit': 'laptop notebook computer work programming study computador trabalho programacao estudo',
     'watch-pulse': 'smartwatch watch fitness wearable relogio inteligente pulso',
