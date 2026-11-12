@@ -1,0 +1,141 @@
+[
+  {
+    "version": "1.0",
+    "createSurface": {
+      "surfaceId": "surface_product_fixture",
+      "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json",
+      "components": [
+        {
+          "id": "c1",
+          "component": "Image",
+          "url": "/images/earbuds.webp",
+          "description": "Buds Cloud Pro",
+          "variant": "smallFeature",
+          "fit": "contain"
+        },
+        {
+          "id": "c2",
+          "component": "Text",
+          "text": "**Buds Cloud Pro**",
+          "variant": "body"
+        },
+        {
+          "id": "c3",
+          "component": "Text",
+          "text": "Liberdade e clareza do início ao fim do dia.",
+          "variant": "body"
+        },
+        {
+          "id": "c4",
+          "component": "Text",
+          "text": "ANC · Estojo USB-C",
+          "variant": "caption"
+        },
+        {
+          "id": "c5",
+          "component": "Text",
+          "text": "**R$ 599,00**",
+          "variant": "body"
+        },
+        {
+          "id": "c6",
+          "component": "Text",
+          "text": "28 disponíveis",
+          "variant": "caption"
+        },
+        {
+          "id": "c7",
+          "component": "Column",
+          "children": [
+            "c2",
+            "c3",
+            "c4",
+            "c5",
+            "c6"
+          ]
+        },
+        {
+          "id": "c8",
+          "component": "Row",
+          "children": [
+            "c1",
+            "c7"
+          ],
+          "align": "center"
+        },
+        {
+          "id": "c9",
+          "component": "Text",
+          "text": "Adicionar ao carrinho",
+          "variant": "body"
+        },
+        {
+          "id": "c10",
+          "component": "Button",
+          "child": "c9",
+          "variant": "primary",
+          "action": {
+            "event": {
+              "name": "add",
+              "context": {
+                "id": "buds-cloud"
+              }
+            }
+          }
+        },
+        {
+          "id": "c11",
+          "component": "Text",
+          "text": "Comprar agora",
+          "variant": "body"
+        },
+        {
+          "id": "c12",
+          "component": "Button",
+          "child": "c11",
+          "variant": "default",
+          "action": {
+            "event": {
+              "name": "buy_now",
+              "context": {
+                "id": "buds-cloud"
+              }
+            }
+          }
+        },
+        {
+          "id": "c13",
+          "component": "Row",
+          "children": [
+            "c10",
+            "c12"
+          ],
+          "align": "center"
+        },
+        {
+          "id": "c14",
+          "component": "Column",
+          "children": [
+            "c8",
+            "c13"
+          ]
+        },
+        {
+          "id": "c15",
+          "component": "Card",
+          "child": "c14"
+        },
+        {
+          "id": "root",
+          "component": "Column",
+          "children": [
+            "c15"
+          ]
+        }
+      ],
+      "dataModel": {
+        "form": {}
+      }
+    }
+  }
+]

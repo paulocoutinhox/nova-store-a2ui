@@ -1,0 +1,15 @@
+# JavaScript/Python build products
+node_modules/
+frontend/dist/
+backend/.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.log
+# Local secrets and state
+.env
+.env.*
+!.env.example
+backend/data/*.sqlite3
+backend/data/*.sqlite3-*
+.DS_Store
