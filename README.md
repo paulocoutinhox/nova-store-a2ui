@@ -2,7 +2,7 @@
   <a href="https://github.com/paulocoutinhox/nova-store-a2ui">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="extras/images/logo-dark.svg">
-      <img width="440" src="extras/images/logo.svg" alt="Nova Store">
+      <img width="400" src="extras/images/logo.svg" alt="Nova Store">
     </picture>
   </a>
 </p>
@@ -15,7 +15,9 @@
 </p>
 
 <p align="center">
-A conversational shopping experience powered by a real AI agent, structured A2UI interfaces, and a local demonstration store.
+A conversational shopping experience.<br>
+Powered by an AI agent and A2UI interfaces.<br>
+Built for a local demonstration store.
 </p>
 
 <br>
