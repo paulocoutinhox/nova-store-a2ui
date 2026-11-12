@@ -30,6 +30,14 @@ Every free-text message is sent to **PydanticAI** using a configured OpenAI mode
 
 The project includes 12 products with local WebP images and a SQLite database. **Pix, card, and boleto payments are simulated. No real charges occur.**
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="extras/images/screenshots/categories.webp" alt="Browse shopping categories" width="300" style="max-width: 300px; width: 100%; height: auto;">
+  <img src="extras/images/screenshots/products.webp" alt="Explore products in a category" width="300" style="max-width: 300px; width: 100%; height: auto;">
+  <img src="extras/images/screenshots/cart.webp" alt="Review and update your shopping cart" width="300" style="max-width: 300px; width: 100%; height: auto;">
+</p>
+
 ## ✨ Features
 
 - 💬 **Conversational shopping:** natural-language product discovery, recommendations, and saved history.
