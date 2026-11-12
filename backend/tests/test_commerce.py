@@ -38,7 +38,7 @@ def attach(client,sid):
     # A user can receive A2UI via a concrete UI action; use this to exercise
     # authenticated source-surface checks for subsequent clicks.
     surface='ui_'+sid[:20]
-    db.save_chat_message(sid,'assistant','Produtos locais',
+    db.save_chat_message(sid,'assistant','Local products',
         [{'version':'1.0','createSurface':{'surfaceId':surface,'components':[], 'dataModel':{}}}],surface)
     return surface
 
@@ -104,10 +104,10 @@ def test_category_and_cart_in_chat(client):
     sid=session(client); src=attach(client,sid)
     cat=event(client,sid,src,'categories')
     src=next_surface(cat)
-    assert 'categoria' in cat['turn']['content'].lower()
-    p=event(client,sid,src,'category',category='Áudio')
+    assert 'categor' in cat['turn']['content'].lower()
+    p=event(client,sid,src,'category',category='Audio')
     src=next_surface(p)
-    assert 'Fone Studio' in json.dumps(p['turn']['a2ui'],ensure_ascii=False)
+    assert 'Studio ANC Headphones' in json.dumps(p['turn']['a2ui'],ensure_ascii=False)
     add=event(client,sid,src,'add',id='fone-studio')
     src=next_surface(add)
     assert add['cart_count']==1
@@ -157,7 +157,7 @@ def test_invalid_checkout_preserves_values(client):
     src=next_surface(event(client,sid,src,'add',id='teclado-type'))
     src=next_surface(event(client,sid,src,'checkout'))
     out=event(client,sid,src,'place_order',**checkout_data(coupon='INVALID',email='bad',name='<script>'))
-    assert 'Não consegui concluir' in out['turn']['content']
+    assert 'Could not complete the action' in out['turn']['content']
     assert out['turn']['a2ui'][0]['createSurface']['dataModel']['form']['name']=='<script>'
     assert db.cart_count(sid)==1 and not db.get_orders(sid)
 
@@ -176,9 +176,9 @@ def test_cannot_forge_surface_or_cross_session(client):
 
 def test_no_key_is_explicit_error_not_fake_ai(client,monkeypatch):
     sid=session(client)
-    response=client.post('/api/message',json={'session_id':sid,'text':'Qual notebook devo comprar?'})
+    response=client.post('/api/message',json={'session_id':sid,'text':'Which laptop should I buy?'})
     assert response.status_code==503
-    assert 'indisponível' in response.json()['detail']
+    assert 'unavailable' in response.json()['detail']
     assert len(db.chat_history(sid))==1
 
 
@@ -198,7 +198,7 @@ def test_real_pydantic_path_invokes_agent_and_tools(client,monkeypatch):
         async def run(self,message,**kwargs):
             received.append(('run',message))
             self.tools['find_products'](FakeRunContext(kwargs['deps']),query='fone')
-            return types.SimpleNamespace(output='Achei um fone com ANC por R$ 699.',
+            return types.SimpleNamespace(output='I found ANC headphones for R$ 699.',
               all_messages_json=lambda: b'[]')
     fake=types.ModuleType('pydantic_ai')
     fake.Agent=FakeAgent
@@ -214,13 +214,13 @@ def test_real_pydantic_path_invokes_agent_and_tools(client,monkeypatch):
     messages.ModelMessagesTypeAdapter=types.SimpleNamespace(validate_json=lambda x: [])
     monkeypatch.setitem(sys.modules,'pydantic_ai',fake)
     monkeypatch.setitem(sys.modules,'pydantic_ai.messages',messages)
-    response=client.post('/api/message',json={'session_id':sid,'text':'Me indica um fone?'})
+    response=client.post('/api/message',json={'session_id':sid,'text':'Can you recommend headphones?'})
     assert response.status_code==200,response.text
     payload=response.json()
     assert payload['used_real_ai'] is True
     assert payload['tools_called']==['find_products']
-    assert received==[('init','gpt-5'),('run','Me indica um fone?')]
-    assert 'Fone Studio' in json.dumps(payload['turn']['a2ui'],ensure_ascii=False)
+    assert received==[('init','gpt-5'),('run','Can you recommend headphones?')]
+    assert 'Studio ANC Headphones' in json.dumps(payload['turn']['a2ui'],ensure_ascii=False)
     next_surface(payload)
     # Subsequent requests must load the PydanticAI history from SQLite.
     assert db.load_ai_history(sid)=='[]'
@@ -232,11 +232,11 @@ def test_model_failures_are_not_silenced(client,monkeypatch):
     monkeypatch.setenv('OPENAI_API_KEY','sk-test')
     async def crash(message,sid):
         from app.ai import AIServiceError
-        raise AIServiceError('Falha na OpenAI/PydanticAI (AuthenticationError): invalid key')
+        raise AIServiceError('OpenAI/PydanticAI failed (AuthenticationError): invalid key')
     monkeypatch.setattr('app.main.reply_with_ai',crash)
     response=client.post('/api/message',json={'session_id':sid,'text':'Quero produtos'})
     assert response.status_code==502
-    assert 'Não consegui responder' in response.json()['detail']
+    assert 'I could not respond' in response.json()['detail']
     assert len(db.chat_history(sid))==1
 
 
@@ -251,7 +251,7 @@ def test_cancel_restores_stock(client):
     src=next_surface(event(client,sid,src,'cancel_order',order_id=oid))
     assert db.get_order(oid,sid)['status']=='cancelled'
     assert db.get_product('camera-frame')['stock']==before
-    assert 'Não consegui concluir' in event(client,sid,src,'approve_payment',order_id=oid)['turn']['content']
+    assert 'Could not complete the action' in event(client,sid,src,'approve_payment',order_id=oid)['turn']['content']
 
 
 def test_duplicate_order_and_paid_cancellation_guard(client):
@@ -260,10 +260,10 @@ def test_duplicate_order_and_paid_cancellation_guard(client):
     src=next_surface(event(client,sid,src,'checkout'))
     src=next_surface(event(client,sid,src,'place_order',**checkout_data(coupon='')))
     assert len(db.get_orders(sid))==1
-    assert 'Não consegui concluir' in event(client,sid,src,'place_order',**checkout_data())['turn']['content']
+    assert 'Could not complete the action' in event(client,sid,src,'place_order',**checkout_data())['turn']['content']
     oid=db.session(sid)['arg']
     src=next_surface(event(client,sid,src,'approve_payment',order_id=oid))
-    assert 'Não consegui concluir' in event(client,sid,src,'cancel_order',order_id=oid)['turn']['content']
+    assert 'Could not complete the action' in event(client,sid,src,'cancel_order',order_id=oid)['turn']['content']
 
 
 def test_search_filters_accents_and_price(client):
@@ -384,7 +384,7 @@ def test_click_uses_model_for_natural_followup_without_fake_user_turn(client,mon
     calls=[]
     async def fake_ai(sid,event_name,outcome):
         calls.append((event_name,outcome))
-        return 'Claro! Separei as opções por categoria. Qual te interessa mais?'
+        return 'Absolutely! Here are the product categories. Which one interests you?'
     monkeypatch.setattr('app.main.reply_after_action',fake_ai)
     out=event(client,sid,'unused','categories')
     assert out['used_real_ai'] is True

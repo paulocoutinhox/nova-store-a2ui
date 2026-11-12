@@ -84,8 +84,8 @@ def session(body:SessionIn):
     history=db.chat_history(sid)
     if not history:
         create_assistant(sid,
-            'Oi! 👋 Eu sou a NOVA. O que você está procurando? Posso ajudar a escolher, '
-            'comparar e comprar. Tudo aqui na conversa.',with_ui=False,via='welcome')
+            'Hi! 👋 I’m NOVA. What can I help you find today? I can help you discover, '
+            'compare, and buy products—all in this chat.',with_ui=False,via='welcome')
         history=db.chat_history(sid)
     return {**meta(sid),'history':history}
 
@@ -95,16 +95,16 @@ async def message(body:ChatIn):
     session_or_422(body.session_id)
     sid=body.session_id
     prompt=body.text.strip()
-    if not prompt: raise HTTPException(status_code=422,detail='Escreva uma mensagem.')
+    if not prompt: raise HTTPException(status_code=422,detail='Type a message.')
     if not ai_config()['configured']:
         config=ai_config()
-        raise HTTPException(status_code=503,detail='A assistência por mensagem está temporariamente indisponível.')
+        raise HTTPException(status_code=503,detail='The shopping assistant is temporarily unavailable.')
     try:
         reply,tools=await reply_with_ai(prompt,sid)
     except AIServiceError as exc:
         logger.exception('PydanticAI message failed')
         # Surface a real error — never return a fabricated, supposedly AI-generated reply.
-        raise HTTPException(status_code=502,detail='Não consegui responder agora. Tente novamente em instantes.') from exc
+        raise HTTPException(status_code=502,detail='I could not respond right now. Please try again shortly.') from exc
     # UI only when the agent actually used a tool to display or mutate commerce state.
     db.save_chat_message(sid,'user',prompt)
     attach=bool(tools)
@@ -120,42 +120,42 @@ def text_value(context,key,max_len=220):
 def handle_action(sid,name,context):
     if name in ('home','categories','cart','orders'):
         db.navigate(sid,name)
-        return {'home':'Separei algumas sugestões para você.',
-                'categories':'Estas são as categorias disponíveis.',
-                'cart':'Aqui está o seu carrinho.',
-                'orders':'Aqui estão seus pedidos de teste.'}[name]
+        return {'home':'Here are a few suggestions to get you started.',
+                'categories':'Here are the available categories.',
+                'cart':'Here is your cart.',
+                'orders':'Here are your orders.'}[name]
     if name=='category':
         category=text_value(context,'category',100)
         if category not in [c['name'] for c in db.categories()]:
-            raise ValueError('Categoria não encontrada.')
+            raise ValueError('Category not found.')
         db.navigate(sid,'category',category)
-        return f'Produtos da categoria {category}:'
+        return f'Products in {category}:'
     if name=='product':
         product=db.get_product(text_value(context,'id',100))
-        if not product: raise ValueError('Produto não encontrado.')
+        if not product: raise ValueError('Product not found.')
         db.navigate(sid,'product',product['id'])
-        return f'Olha os detalhes do {product["name"]}:'
+        return f'Here are the details for {product["name"]}:'
     if name in ('add','buy_now'):
         pid=text_value(context,'id',100)
         item=db.get_product(pid)
-        if not item: raise ValueError('Produto não encontrado.')
+        if not item: raise ValueError('Product not found.')
         db.add_to_cart(sid,pid)
         db.navigate(sid,'checkout' if name=='buy_now' else 'cart')
-        return f'Adicionei {item["name"]} ao seu carrinho. 🛒'
+        return f'Added {item["name"]} to your cart. 🛒'
     if name=='set_qty':
         pid=text_value(context,'id',100)
         qty=context.get('qty')
-        if type(qty) is not int: raise ValueError('Quantidade inválida.')
+        if type(qty) is not int: raise ValueError('Invalid quantity.')
         db.set_qty(sid,pid,qty)
         db.navigate(sid,'cart')
-        return 'Atualizei seu carrinho.'
+        return 'Your cart has been updated.'
     if name=='checkout':
-        if not db.cart(sid): raise ValueError('Seu carrinho está vazio.')
+        if not db.cart(sid): raise ValueError('Your cart is empty.')
         db.navigate(sid,'checkout')
-        return 'Vamos finalizar! Preencha os dados do pedido de teste abaixo.'
+        return 'Ready to check out? Enter your delivery details below.'
     if name=='place_order':
         if db.session(sid)['view']!='checkout':
-            raise ValueError('Abra o checkout antes de criar o pedido.')
+            raise ValueError('Open checkout before placing an order.')
         allowed=('name','email','zip','address','number','complement','city','state')
         customer={k:text_value(context,k,240) for k in allowed}
         raw_method=context.get('payment',['pix'])
@@ -164,26 +164,26 @@ def handle_action(sid,name,context):
         db.navigate(sid,'checkout',draft={**customer,'payment':method,'coupon':coupon})
         oid=db.create_order(sid,customer,method,coupon)
         db.navigate(sid,'payment',oid)
-        return f'Pedido {oid} criado! Agora vamos simular o pagamento.'
+        return f'Order {oid} is ready. Continue to the demo payment.'
     if name=='approve_payment':
         oid=text_value(context,'order_id',100)
         info=db.session(sid)
         if info['view'] not in ('payment','order') or info['arg']!=oid:
-            raise ValueError('Abra o pedido antes de confirmar seu pagamento.')
+            raise ValueError('Open your order before confirming payment.')
         db.approve_demo_payment(oid,sid)
         db.navigate(sid,'order',oid)
-        return 'Prontinho! ✅ Pagamento de TESTE aprovado, sem cobrança real.'
+        return 'Done! ✅ Your demo payment was confirmed. No real charge was made.'
     if name=='cancel_order':
         oid=text_value(context,'order_id',100)
         db.cancel_demo_order(oid,sid)
         db.navigate(sid,'order',oid)
-        return 'Pedido de teste cancelado e estoque liberado.'
+        return 'Order cancelled and items returned to stock.'
     if name=='order':
         oid=text_value(context,'order_id',100)
-        if not db.get_order(oid,sid): raise ValueError('Pedido não encontrado nesta sessão.')
+        if not db.get_order(oid,sid): raise ValueError('Order not found in this session.')
         db.navigate(sid,'order',oid)
-        return 'Aqui estão os detalhes do pedido.'
-    raise ValueError('Esta ação não é suportada.')
+        return 'Here are your order details.'
+    raise ValueError('This action is not supported.')
 
 
 @app.post('/api/action')
@@ -191,15 +191,15 @@ async def action(body:ActionIn):
     session_or_422(body.session_id)
     wire=body.message
     if wire.get('version')!='1.0' or not isinstance(wire.get('action'),dict):
-        raise HTTPException(status_code=422,detail='Ação A2UI 1.0 inválida.')
+        raise HTTPException(status_code=422,detail='Invalid A2UI 1.0 action.')
     event=wire['action']
     surface_id=event.get('surfaceId','')
     component_id=event.get('sourceComponentId','')
     if not isinstance(surface_id,str) or not db.surface_belongs_to(body.session_id,surface_id):
-        raise HTTPException(status_code=403,detail='Esta interface não pertence à sessão.')
+        raise HTTPException(status_code=403,detail='This interface does not belong to your session.')
     context=event.get('context') or {}
     if not isinstance(context,dict) or not isinstance(event.get('name'),str):
-        raise HTTPException(status_code=422,detail='Evento inválido.')
+        raise HTTPException(status_code=422,detail='Invalid event.')
     name=event['name']
     timestamp=event.get('timestamp')
     try:
@@ -207,16 +207,16 @@ async def action(body:ActionIn):
             raise ValueError('Missing timestamp')
         datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
     except ValueError:
-        raise HTTPException(status_code=422, detail='Evento inválido.')
+        raise HTTPException(status_code=422, detail='Invalid event.')
     if not db.authorize_surface_action(body.session_id,surface_id,component_id,name,context):
-        raise HTTPException(status_code=403,detail='Esta ação não pertence à interface atual.')
+        raise HTTPException(status_code=403,detail='This action is not available in the current interface.')
     if not db.claim_action(body.session_id,surface_id,component_id,timestamp):
-        raise HTTPException(status_code=409,detail='Esta ação já foi processada.')
+        raise HTTPException(status_code=409,detail='This action has already been processed.')
     try:
         confirmed=handle_action(body.session_id,name,context)
         error=''
     except ValueError as exc:
-        confirmed=f'Não consegui concluir: {exc}'
+        confirmed=f'Could not complete the action: {exc}'
         error=str(exc)
     db.record_action(body.session_id,name,confirmed)
     reply=confirmed
@@ -258,7 +258,7 @@ async def cart_view(body:CartViewIn):
 @app.get('/api/orders/{order_id}')
 def order_detail(order_id:str,session_id:str):
     order=db.get_order(order_id,session_id)
-    if not order: raise HTTPException(status_code=404,detail='Pedido não encontrado.')
+    if not order: raise HTTPException(status_code=404,detail='Order not found.')
     return order
 
 
@@ -270,7 +270,7 @@ def products(): return db.get_products()
 def qr(order_id:str,session_id:str):
     order=db.get_order(order_id,session_id)
     if not order or order['method']!='pix':
-        raise HTTPException(status_code=404,detail='QR Code não encontrado.')
+        raise HTTPException(status_code=404,detail='QR code not found.')
     import qrcode
     buffer=io.BytesIO()
     qrcode.make(f'DEMO-SEM-VALOR-{order_id}').save(buffer,format='PNG')
@@ -286,4 +286,4 @@ app.mount('/assets',StaticFiles(directory=str(WEB_DIST/'assets'),check_dir=False
 def index():
     path=WEB_DIST/'index.html'
     return FileResponse(path) if path.is_file() else JSONResponse(
-        {'detail':'Compile o frontend com make start ou execute make dev.'},status_code=503)
+        {'detail':'Build the frontend with make start or run make dev.'},status_code=503)
